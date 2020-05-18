@@ -3,6 +3,7 @@ from discord.ext import commands
 import datetime
 from discord.utils import get
 import youtube_dl
+import ffmpeg
 
 import os
 from time import sleep
