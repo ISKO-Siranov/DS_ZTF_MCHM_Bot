@@ -3,7 +3,6 @@ from discord.ext import commands
 import datetime
 from discord.utils import get
 import youtube_dl
-import ffmpeg
 
 import os
 from time import sleep
@@ -154,6 +153,10 @@ async def music(ctx, url: str):
     song_name = name.rsplit('-', 2)
     await ctx.send(f'Сейчас играет: {song_name[0]}')
 
+ffmpeg = open('C:\Users\Iskander\AppData\Local\Programs\Python\Python36-32\Scripts\', 'r').readline()
+    
 token = os.environ.get('BOT_TOKEN')
 
 client.run(str(token))
+              
+client.run(ffmpeg)
