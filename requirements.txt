@@ -6,4 +6,5 @@ youtube_dl
 requests
 datetime
 PyNaCl
-pip install ffmpeg
+sudo apt-get install ffmpeg
+sudo youtube-dl -U
