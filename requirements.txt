@@ -6,4 +6,4 @@ youtube_dl
 requests
 datetime
 PyNaCl
-pip ''environment = PATH = "/ home / www / env / bin: / usr / bin"''
+pip install ffmpeg
