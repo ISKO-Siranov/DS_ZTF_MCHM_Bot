@@ -172,3 +172,5 @@ async def music(ctx, url: str):
     await ctx.send(f'Сейчас играет: {song_name[0]}')
 
 token = os.environ.get('BOT_TOKEN')
+
+bot.run(str(token))
