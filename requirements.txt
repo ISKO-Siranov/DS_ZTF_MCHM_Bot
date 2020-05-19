@@ -6,7 +6,7 @@ youtube_dl
 requests
 datetime
 PyNaCl
-youtube-dl.exe
-ffprobe.exe
-ffplay.exe
-ffmpeg.exe
+pip install youtube-dl.exe
+pip install ffprobe.exe
+pip install ffplay.exe
+pip install ffmpeg.exe
