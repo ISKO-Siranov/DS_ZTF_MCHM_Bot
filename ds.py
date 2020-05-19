@@ -58,7 +58,7 @@ async def help( ctx ):
     emb.add_field( name = '{}clear'.format ( prefix ), value = 'Очистка чата' )
     emb.add_field( name = '{}kick'.format ( prefix ), value = 'Удаление участника (Только админ) ' )
     emb.add_field( name = '{}time'.format ( prefix ), value = 'Показ времени' )
-    emb.add_field(name='{}play'.format(prefix), value='слушать музыку')
+    emb.add_field(name='{}music'.format(prefix), value='слушать музыку')
 
     await ctx.send( embed = emb )
     await ctx.send( 'Все команды писать с префиксом  ">" ')
