@@ -3,10 +3,6 @@ from discord.ext import commands
 import datetime
 from discord.utils import get
 import youtube_dl
-youtube-dl.exe
-ffprobe.exe
-ffplay.exe
-ffmpeg.exe
 
 import os
 from time import sleep
