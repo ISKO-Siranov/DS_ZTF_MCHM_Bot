@@ -58,7 +58,7 @@ async def help( ctx ):
     emb.add_field( name = '{}clear'.format ( prefix ), value = 'Очистка чата' )
     emb.add_field( name = '{}kick'.format ( prefix ), value = 'Удаление участника (Только админ) ' )
     emb.add_field( name = '{}time'.format ( prefix ), value = 'Показ времени' )
-    emb.add_field(name='{}music'.format(prefix), value='слушать музыку')
+    emb.add_field(name='{}play'.format(prefix), value='слушать музыку')
 
     await ctx.send( embed = emb )
     await ctx.send( 'Все команды писать с префиксом  ">" ')
@@ -114,7 +114,7 @@ async def leave(ctx):
         await ctx.channel.send('Вы должы быть в канале с ботом, чтобы отключить его.')
 
 @client.command()
-async def music(ctx, url: str):
+async def play(ctx, url: str):
     song_there = os.path.isfile('song.mp3')
 
     try:
