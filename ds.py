@@ -154,6 +154,9 @@ async def play(ctx, url: str):
     song_name = name.rsplit('-', 2)
     await ctx.send(f'Сейчас играет: {song_name[0]}')
     
+    if not discord.opus.is_loaded():
+        discord.opus.load_opus('libopus.so')
+    
 token = os.environ.get('BOT_TOKEN')
 
 client.run(str(token))
