@@ -89,30 +89,31 @@ async def on_member_join( member ):
     await member.add_roles( role )
     await channel.send( embed = discord.Embed(description = f'Добро пожаловать на наш Discord сервер {member.name} чтобы получить другую роль зайдите в текстовой канал "получение-роли"', color = 0x0c0c0c) )
 
-@client.command(pass_contex=True)
+@client.command()
 async def join(ctx):
-    global voice
     channel = ctx.message.author.voice.channel
     voice = get(client.voice_clients, guild=ctx.guild)
-
     if voice and voice.is_connected():
         await voice.move_to(channel)
     else:
-        voice = await channel.connect()
-        await ctx.send(f'Бот присоеденился к каналу: {channel}')
+        await channel.connect()
 
-@client.command(pass_contex=True)
+@client.command()
 async def leave(ctx):
-    channel = ctx.message.author.voice.channel
-    voice = get(client.voice_clients, guild=ctx.guild)
+    try:
+        channel = ctx.message.author.voice.channel
+        voice = get(client.voice_clients, guild=ctx.guild)
+        all_user = list(map(lambda x: x.name, channel.members))
+        name_bot = ctx.guild.get_member(673636483281977402).name
+        if name_bot in all_user:
+            await voice.disconnect()
+        else:
+            await ctx.channel.send('Вы должы быть в канале с ботом, чтобы отключить его.')
 
-    if voice and voice.is_connected():
-        await voice.disconnect()
-    else:
-        voice = await channel.connect()
-        await ctx.send(f'Бот отключился от канала: {channel}')
+    except:
+        await ctx.channel.send('Вы должы быть в канале с ботом, чтобы отключить его.')
 
-@client.command(pass_context=True)
+@client.command()
 async def music(ctx, url: str):
     song_there = os.path.isfile('song.mp3')
 
