@@ -3,6 +3,9 @@ from discord.ext import commands
 import datetime
 from discord.utils import get
 import youtube_dl
+import pyowm
+
+owm = pyowm.OWM('23e383b1f9723c91e85317b5e6a95c15', Language = "ru")
 
 import os
 from time import sleep
@@ -16,6 +19,23 @@ client.remove_command( 'help' )
 hello_words = ['hello','Hello','hi','Hi','привет','Привет',]
 question = ['что ты умеешь?','че ты умеешь?','что здесь делать?','че здесь делать?']
 
+@client.command(pass_context=True)
+async def weather(ctx):
+    answer = ('В каком городе узнать погоду?')
+    await ctx.channel.send(answer)
+    observation = owm.weather_at_place(ctx.channel.send)
+    w = observation.get_weather()
+    temp = w.get_temperature('celsius')["temp"]
+    
+    if temp < 10:
+        temp = ('Сейчас очень холодно одевайтесь потеплее')
+    elif temp < 20:
+        temp = ('Сейчас прохладно, рекомендую одеть как минимум кофту')
+    else:
+        temp = ('Сейчас нормальная температура, одевайтесь на ваше усмотрение')
+    
+    await ctx.channel.send('В городе' + answer + 'сейчас' + w.get_detailed_status + "\n" + 'температура сейчас в районе' + str(temp))
+    
 @client.event
 
 async def on_ready():
