@@ -22,7 +22,7 @@ async def weather(ctx):
     owm = pyowm.OWM('23e383b1f9723c91e85317b5e6a95c15', language = "ru")
     answer = ('В каком городе узнать погоду?')
     await ctx.channel.send(answer)
-    observation = owm.weather_at_place()
+    observation = owm.weather_at_place(name)
     w = observation.get_weather()
     temp = w.get_temperature('celsius')["temp"]
     
