@@ -4,6 +4,7 @@ import datetime
 from discord.utils import get
 import youtube_dl
 import pyowm
+import radio
 
 import os
 from time import sleep
@@ -176,6 +177,12 @@ async def play(ctx, url: str):
     if not discord.opus.is_loaded():
         discord.opus.load_opus('libopus.so')
     
+@client.command
+async def radio(ctx, urs: str):
+    rs = radio show    
+    
+    await ctx.channel.send(rs + 'Выберите радиостанцию')
+
 token = os.environ.get('BOT_TOKEN')
 
 client.run(str(token))
