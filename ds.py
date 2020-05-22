@@ -4,7 +4,7 @@ import datetime
 from discord.utils import get
 import youtube_dl
 import pyowm
-import radio
+import Radio
 
 import os
 from time import sleep
