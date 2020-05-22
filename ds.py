@@ -178,7 +178,7 @@ async def play(ctx, url: str):
     
 @client.command
 async def radio(ctx, urs: str):
-    rs = radio show    
+    rs = radio show()    
     
     await ctx.channel.send(rs + 'Выберите радиостанцию')
 
