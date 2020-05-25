@@ -26,11 +26,11 @@ async def weather(ctx):
     
     await ctx.channel.send(city)
     
-    observation = owm.weather_at_place(city)
+    observation = owm.weather_at_place()
     w = observation.get_weather()
     tempa = get_temperature('celsius')['temp']
-    windy = get_wind(city)['speed']
-    vlazhnost = get_humidity(city)['87']
+    windy = get_wind()['speed']
+    vlazhnost = get_humidity()['87']
     
     await ctx.channel.send( 'В городе ' + city + ' сейчас ' + w + ' температура сейчас ' + tempa + ',' + ' скорость ветра состовляет = ' + windy + ',' + ' также текущая влажность = ' + vlazhnost )
     
