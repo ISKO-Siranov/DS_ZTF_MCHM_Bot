@@ -26,7 +26,7 @@ async def weather(ctx):
     
     await ctx.channel.send(city)
     
-    observation = owm.weather_at_place()
+    observation = owm.weather_at_place(city)
     w = observation.get_weather()
     tempa = get_temperature('celsius')['temp']
     windy = get_wind()['speed']
