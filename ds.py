@@ -19,7 +19,7 @@ hello_words = ['hello','Hello','hi','Hi','привет','Привет',]
 question = ['что ты умеешь?','че ты умеешь?','что здесь делать?','че здесь делать?']
 
 @client.command(pass_context=True)
-async def weather(ctx, member):
+async def weather(ctx):
     owm  =  pyowm.OWM ( '23e383b1f9723c91e85317b5e6a95c15' )
     
     city = 'В каком городе узнать погоду?'
