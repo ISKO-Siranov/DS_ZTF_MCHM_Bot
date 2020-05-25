@@ -3,7 +3,7 @@ from discord.ext import commands
 import datetime
 from discord.utils import get
 import youtube_dl
-import pyowm
+from pyowm import *
 import radio
 
 import os
@@ -19,21 +19,20 @@ hello_words = ['hello','Hello','hi','Hi','привет','Привет',]
 question = ['что ты умеешь?','че ты умеешь?','что здесь делать?','че здесь делать?']
 
 @client.command(pass_context=True)
-async def weather(ctx):
-    owm = pyowm.OWM('23e383b1f9723c91e85317b5e6a95c15', language = "ru")
-    answer = ('В каком городе узнать погоду?')
-    await ctx.channel.send(answer)
+async def weather(ctx, member):
+    owm  =  pyowm.OWM ( '23e383b1f9723c91e85317b5e6a95c15' )
+    
+    city = 'В каком городе узнать погоду?'
+    
+    await ctx.channel.send(city)
+    
+    observation = owm.weather_at_place(city, language = "ru")
     w = observation.get_weather()
-    temp = w.get_temperature('celsius')["temp"]
+    tempa = get_temperature('celsius')['temp']
+    windy = get_wind(city)['speed']
+    vlazhnost = get_humidity(city)['87']
     
-    if temp < 10:
-        temp = ('Сейчас очень холодно одевайтесь потеплее')
-    elif temp < 20:
-        temp = ('Сейчас прохладно, рекомендую одеть как минимум кофту')
-    else:
-        temp = ('Сейчас нормальная температура, одевайтесь на ваше усмотрение')
-    
-    await ctx.channel.send('В городе' + answer + 'сейчас' + w.get_detailed_status + "\n" + 'температура сейчас в районе' + str(temp))
+    await ctx.channel.send( 'В городе ' + city + ' сейчас ' + observation + /n + ' температура сейчас ' + tempa + ',' + ' скорость ветра состовляет = ' + windy + ',' + ' также текущая влажность = ' + vlazhnost )
     
 @client.event
 
