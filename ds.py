@@ -32,7 +32,7 @@ async def weather(ctx):
     windy = get_wind()['speed']
     vlazhnost = get_humidity()['87']
     
-    await ctx.channel.send('В городе ' + city + ' сейчас ' + w + ' температура сейчас ' + (str(tempa)) + ',' + "\n" + ' скорость ветра состовляет = ' + (str(windy)) + ',' + "\n" + ' также текущая влажность = ' + (str(vlazhnost)))
+    await ctx.channel.send('В городе ' + city + ' сейчас ' + w + ' температура сейчас ' + (int(tempa)) + ',' + "\n" + ' скорость ветра состовляет = ' + (int(windy)) + ',' + "\n" + ' также текущая влажность = ' + (int(vlazhnost)))
     
 @client.event
 
