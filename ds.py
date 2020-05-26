@@ -8,7 +8,7 @@ import requests
 from discord.ext import commands
 from discord.utils import get
 from time import sleep
-from pyowm import *
+from pyowm import get
 
 prefix = '>'
 
