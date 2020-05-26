@@ -8,7 +8,6 @@ import requests
 from discord.ext import commands
 from discord.utils import get
 from time import sleep
-from pyowm import get
 
 owm = pyowm.OWM('23e383b1f9723c91e85317b5e6a95c15', language="ru")
 
