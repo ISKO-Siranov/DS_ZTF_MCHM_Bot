@@ -21,7 +21,7 @@ question = ['что ты умеешь?','че ты умеешь?','что зде
 @client.command(pass_context=True)
 async def weather(ctx):
     owm  =  pyowm.OWM ( '23e383b1f9723c91e85317b5e6a95c15', language = "ru" )
-    observation = owm.weather_at_place('Almaty,KZ')
+    observation = owm.weather_at_place('Almaty,Kz')
     w = observation.get_weather()
     tempa = get_temperature('celsius')['temp']
     windy = get_wind()['speed']
