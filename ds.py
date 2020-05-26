@@ -23,11 +23,10 @@ async def weather(ctx):
     owm  =  pyowm.OWM ( '23e383b1f9723c91e85317b5e6a95c15', language = "ru" )
     observation = owm.weather_at_place('Almaty,Kz')
     w = observation.get_weather()
-    tempa = get_temperature('celsius')['temp']
     windy = get_wind()['speed']
     vlazhnost = get_humidity()['87']
     
-    await ctx.channel.send('В городе ' + 'Алматы' + ' сейчас ' + w + ' температура сейчас ' + (str(tempa)) + ',' + "\n" + ' скорость ветра состовляет = ' + (str(windy)) + ',' + "\n" + ' также текущая влажность = ' + (str(vlazhnost)))
+    await ctx.channel.send('В городе ' + 'Алматы' + ' сейчас ' + w + ' температура сейчас ' + ',' + "\n" + ' скорость ветра состовляет = ' + (str(windy)) + ',' + "\n" + ' также текущая влажность = ' + (str(vlazhnost)))
     
 @client.event
 
