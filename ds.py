@@ -21,12 +21,13 @@ question = ['что ты умеешь?','че ты умеешь?','что зде
 @client.command(pass_context=True)
 async def weather(ctx):
     owm  =  pyowm.OWM ( '23e383b1f9723c91e85317b5e6a95c15', language = "ru" )
-    observation = owm.weather_at_place('Almaty,Kz')
+    observation = owm.weather_at_place('Almaty,KZ')
     w = observation.get_weather()
     windy = get_wind()['speed']
+    tempash = w.get_temperature('celsius')['temp']
     vlazhnost = get_humidity()['87']
     
-    await ctx.channel.send('В городе ' + 'Алматы' + ' сейчас ' + w + ' температура сейчас ' + ',' + "\n" + ' скорость ветра состовляет = ' + (str(windy)) + ',' + "\n" + ' также текущая влажность = ' + (str(vlazhnost)))
+    await ctx.channel.send('В городе ' + 'Алматы' + ' сейчас ' + w + ' температура сейчас ' + str(tempash)) + ',' + "\n" + ' скорость ветра состовляет = ' + str(windy)) + ',' + "\n" + ' также текущая влажность = ' + str(vlazhnost))
     
 @client.event
 
@@ -73,7 +74,7 @@ async def help( ctx ):
     emb.add_field(name='{}play'.format(prefix), value='слушать музыку')
 
     await ctx.send( embed = emb )
-    await ctx.send( 'Все команды писать с префиксом  ">" ')
+    await ctx.send( 'Все команды писать с префиксом  - ">"  ')
 
 @client.command( pass_context = True )
 
@@ -169,12 +170,6 @@ async def play(ctx, url: str):
     if not discord.opus.is_loaded():
         discord.opus.load_opus('libopus.so')
     
-@client.command
-async def radio(ctx, urs: str):
-    rs = radioShow()    
-    
-    await ctx.channel.send(rs + 'Выберите радиостанцию')
-
 token = os.environ.get('BOT_TOKEN')
 
 client.run(str(token))
