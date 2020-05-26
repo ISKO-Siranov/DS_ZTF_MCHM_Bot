@@ -10,24 +10,32 @@ from discord.utils import get
 from time import sleep
 from pyowm import get
 
+owm = pyowm.OWM('23e383b1f9723c91e85317b5e6a95c15', language="ru")
+
 prefix = '>'
 
 client = commands.Bot(command_prefix=prefix)
 client.remove_command( 'help' )
 
+observation = owm.weather_at_place('Almaty,KZ')
+w = observation.get_weather()
+windy = w.get_wind()['speed']
+tempash = w.get_temperature('celsius')['temp']
+
 hello_words = ['hello','Hello','hi','Hi','привет','Привет',]
 question = ['что ты умеешь?','че ты умеешь?','что здесь делать?','че здесь делать?']
+gradusov = [5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,25,26,27,28,29,30,35,36,37,38,39,40,45,46,47,48,49,50]
+gradusa = [2,3,4,22,23,24,32,33,33,34,42,43,44]
+gradus = [1,21,31,41]
 
 @client.command(pass_context=True)
 async def weather(ctx):
-    owm  =  pyowm.OWM ( '23e383b1f9723c91e85317b5e6a95c15', language = "ru" )
-    observation = owm.weather_at_place('Almaty,KZ')
-    w = observation.get_weather()
-    windy = get_wind()['speed']
-    tempash = w.get_temperature('celsius')['temp']
-    vlazhnost = get_humidity()['87']
-    
-    await ctx.channel.send('В городе ' + 'Алматы' + ' сейчас ' + w + ' температура сейчас ' + str(tempash)) + ',' + "\n" + ' скорость ветра состовляет = ' + str(windy)) + ',' + "\n" + ' также текущая влажность = ' + str(vlazhnost))
+    if tempash in gradusov:
+        await ctx.channel.send('В городе ' + 'Алматы' + ' сейчас ' + w.get_detailed_status() + ',' + ' температура сейчас составляет - ' + str(tempash) + ' градусов' + ',' + "\n" + 'текущая скорость ветра = ' + str(windy) + ' км/ч' + '.')  
+    if tempash in gradusa:
+        await ctx.channel.send('В городе ' + 'Алматы' + ' сейчас ' + w.get_detailed_status() + ',' + ' температура сейчас составляет - ' + str(tempash) + ' градуса' + ',' + "\n" + 'текущая скорость ветра = ' + str(windy) + ' км/ч' + '.')   
+    if tempash in gradus:
+        await ctx.channel.send('В городе ' + 'Алматы' + ' сейчас ' + w.get_detailed_status() + ',' + ' температура сейчас составляет - ' + str(tempash) + ' градус' + ',' + "\n" + 'текущая скорость ветра = ' + str(windy) + ' км/ч'  + '.')
     
 @client.event
 
@@ -169,6 +177,13 @@ async def play(ctx, url: str):
     
     if not discord.opus.is_loaded():
         discord.opus.load_opus('libopus.so')
+    
+@client.command()
+async def stop(ctx):
+    song_there = os.path.isfile('song.mp3')
+    if song_there:
+        os.remove('song.mp3')
+        print('[log] Старый файл удален')
     
 token = os.environ.get('BOT_TOKEN')
 
