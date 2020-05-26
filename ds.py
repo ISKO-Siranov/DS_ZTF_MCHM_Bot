@@ -37,75 +37,58 @@ async def weather(ctx):
         await ctx.channel.send('В городе ' + 'Алматы' + ' сейчас ' + w.get_detailed_status() + ',' + ' температура сейчас составляет - ' + str(tempash) + ' градус' + ',' + "\n" + 'текущая скорость ветра = ' + str(windy) + ' км/ч'  + '.')
     
 @client.event
-
 async def on_ready():
     print( 'BOT connected' )
-
     await client.change_presence( status = discord.Status.online, activity = discord.Game( 'server' ) )
 
 @client.command( pass_context = True )
-
 async def clear( ctx, amount = 100 ):
     await ctx.channel.purge( limit = amount )
 
 @client.command( pass_context = True )
 @commands.has_permissions( administrator = True )
-
 async def kick( ctx, amount : int, member: discord.Member, *, reason = None ):
     await ctx.channel.purge( limit = 1 )
-
     await member.kick( reason = reason, )
     await ctx.send(f'kick user { member.mention }')
     await ctx.channel.purge( limit=amount )
 
 @client.event
-
 async def on_message( message ):
     await client.process_commands( message )
     author = message.author
     msg = message.content.lower()
-
     if msg in hello_words:
         await message.channel.send(f' Здравствуйте {author.mention} чем могу быть полезен? ')
     if msg in question:
         await message.channel.send(f' {author.mention} для полной инфы пропишите команду - !help ')
 
 @client.command( pass_context = True )
-
 async def help( ctx ):
     emb = discord.Embed( title = 'Инструкция по командам' )
-
     emb.add_field( name = '{}clear'.format ( prefix ), value = 'Очистка чата' )
     emb.add_field( name = '{}kick'.format ( prefix ), value = 'Удаление участника (Только админ) ' )
     emb.add_field( name = '{}time'.format ( prefix ), value = 'Показ времени' )
     emb.add_field(name='{}play'.format(prefix), value='слушать музыку')
-
+    emb.add_field(name='{}weather'.format(prefix), value='показ погоды в алматы')
     await ctx.send( embed = emb )
     await ctx.send( 'Все команды писать с префиксом  - ">"  ')
 
 @client.command( pass_context = True )
-
 async def time( ctx ):
     emb = discord.Embed( title = 'Your title', description = 'Вы сможете узнать текущие время', colour = discord.Colour.purple(), url = 'https://www.timeserver.ru/' )
-
     emb.set_author( name = client.user.name, icon_url = client.user.avatar_url )
     emb.set_footer( text = ctx.author.name, icon_url = ctx.author.avatar_url )
     emb.set_image( url = 'https://images.unsplash.com/photo-1501139083538-0139583c060f?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&w=1000&q=80' )
     emb.set_thumbnail( url = 'https://png.pngtree.com/element_our/png_detail/20181010/time-icon-vector-png_125592.jpg' )
-
     now_date = datetime.datetime.now()
-
     emb.add_field( name = 'Показ времени', value = 'Время : {}'.format( now_date ) )
-
     await ctx.send( embed = emb )
 
 @client.event
-
 async def on_member_join( member ):
     channel = client.get_channel(707873874489901069)
-
     role = discord.utils.get(member.guild.roles, id=710101627838660660)
-
     await member.add_roles( role )
     await channel.send( embed = discord.Embed(description = f'Добро пожаловать на наш Discord сервер {member.name} чтобы получить другую роль зайдите в текстовой канал "получение-роли"', color = 0x0c0c0c) )
 
@@ -167,7 +150,7 @@ async def play(ctx, url: str):
             print('[] Переименовываю файл: {file}')
             os.rename(file, 'song.mp3')
 
-    voice.play(discord.FFmpegPCMAudio('song.mp3'), after=lambda e: print(f'[log] {name}, музыка завершилась'))
+    voice.play(discord.FFmpegPCMAudio('song.mp3'), after = lambda e: print(f'[log] {name}, музыка завершилась'))
     voice.source = discord.PCMVolumeTransformer(voice.source)
     voice.source.volume = 0.77
 
