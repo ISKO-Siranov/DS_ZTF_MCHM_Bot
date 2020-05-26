@@ -116,7 +116,7 @@ async def leave(ctx):
         channel = ctx.message.author.voice.channel
         voice = get(client.voice_clients, guild=ctx.guild)
         all_user = list(map(lambda x: x.name, channel.members))
-        name_bot = ctx.guild.get_member(673636483281977402).name
+        name_bot = ctx.guild.get_member(707868440370872340).name
         if name_bot in all_user:
             await voice.disconnect()
         else:
