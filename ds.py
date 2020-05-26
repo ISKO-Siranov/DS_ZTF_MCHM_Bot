@@ -1,14 +1,14 @@
 import discord
-from discord.ext import commands
 import datetime
-from discord.utils import get
 import youtube_dl
 import pyowm
 import radio
-
 import os
-from time import sleep
 import requests
+from discord.ext import commands
+from discord.utils import get
+from time import sleep
+from pyowm import *
 
 prefix = '>'
 
