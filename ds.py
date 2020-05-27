@@ -5,9 +5,11 @@ import pyowm
 import radio
 import os
 import requests
+import config
 from discord.ext import commands
 from discord.utils import get
 from time import sleep
+from discord import utils
 
 owm = pyowm.OWM('23e383b1f9723c91e85317b5e6a95c15', language="ru")
 
@@ -24,7 +26,7 @@ tempash = w.get_temperature('celsius')['temp']
 hello_words = ['hello','Hello','hi','Hi','привет','Привет',]
 question = ['что ты умеешь?','че ты умеешь?','что здесь делать?','че здесь делать?']
 gradusov = [5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,25,26,27,28,29,30,35,36,37,38,39,40,45,46,47,48,49,50]
-gradusa = [2,3,4,22,23,24,32,33,33,34,42,43,44]
+gradusa = [2,3,4,22,23,24,32,33,34,42,43,44]
 gradus = [1,21,31,41]
 
 @client.command(pass_context=True)
@@ -166,6 +168,60 @@ async def stop(ctx):
     if song_there:
         os.remove('song.mp3')
         print('[log] Старый файл удален')
+    
+class MyClient(discord.Client):
+    async def on_ready(self):
+        print('Logged on as {0}!'.format(self.user))
+
+    async def on_raw_reaction_add(self, payload):
+        if payload.message_id == config.POST_ID:
+            # получаем объект канала
+            channel = self.get_channel(payload.channel_id)
+            # получаем объект сообщения
+            message = await channel.fetch_message(payload.message_id)
+            # получаем объект пользователя который поставил реакцию
+            member = utils.get(message.guild.members, id=payload.user_id)
+
+            try:
+                emoji = str(payload.emoji)  # эмоджик который выбрал юзер
+                # объект выбранной роли (если есть)
+                role = utils.get(message.guild.roles, id=config.ROLES[emoji])
+
+                if(len([i for i in member.roles if i.id not in config.EXCROLES]) <= config.MAX_ROLES_PER_USER):
+                    await member.add_roles(role)
+                    print('[SUCCESS] User {0.display_name} has been granted with role {1.name}'.format(
+                        member, role))
+                else:
+                    await message.remove_reaction(payload.emoji, member)
+                    print(
+                        '[ERROR] Too many roles for user {0.display_name}'.format(member))
+
+            except KeyError as e:
+                print('[ERROR] KeyError, no role found for ' + emoji)
+            except Exception as e:
+                print(repr(e))
+
+    async def on_raw_reaction_remove(self, payload):
+        # получаем объект канала
+        channel = self.get_channel(payload.channel_id)
+        # получаем объект сообщения
+        message = await channel.fetch_message(payload.message_id)
+        # получаем объект пользователя который поставил реакцию
+        member = utils.get(message.guild.members, id=payload.user_id)
+
+        try:
+            emoji = str(payload.emoji)  # эмоджик который выбрал юзер
+            # объект выбранной роли (если есть)
+            role = utils.get(message.guild.roles, id=config.ROLES[emoji])
+
+            await member.remove_roles(role)
+            print('[SUCCESS] Role {1.name} has been remove for user {0.display_name}'.format(
+                member, role))
+
+        except KeyError as e:
+            print('[ERROR] KeyError, no role found for ' + emoji)
+        except Exception as e:
+            print(repr(e))
     
 token = os.environ.get('BOT_TOKEN')
 
