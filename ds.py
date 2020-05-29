@@ -63,7 +63,7 @@ async def on_message( message ):
     if msg in hello_words:
         await message.channel.send(f' Здравствуйте {author.mention} чем могу быть полезен? ')
     if msg in question:
-        await message.channel.send(f' {author.mention} для полной инфы пропишите команду - !help ')
+        await message.channel.send(f' {author.mention} для полной инфы пропишите команду - >help ')
 
 @client.command( pass_context = True )
 async def help( ctx ):
