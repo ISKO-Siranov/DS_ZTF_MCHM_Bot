@@ -170,12 +170,12 @@ async def pause(ctx):
     players[id].pause()
     
 @client.command(pass_context=True)
-async def pause(ctx):
+async def stop(ctx):
     id = ctx.message.server.id
     players[id].stop()
     
 @client.command(pass_context=True)
-async def pause(ctx):
+async def resume(ctx):
     id = ctx.message.server.id
     players[id].resume()
     
