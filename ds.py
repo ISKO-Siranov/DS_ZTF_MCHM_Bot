@@ -41,7 +41,7 @@ async def weather(ctx):
 @client.event
 async def on_ready():
     print( 'BOT connected' )
-    await client.change_presence( status = discord.Status.online, activity = discord.Game( 'server' ) )
+    await client.change_presence( status = discord.Status.online, activity = discord.Game( 'работника' ) )
 
 @client.command( pass_context = True )
 async def clear( ctx, amount = 100 ):
@@ -92,7 +92,7 @@ async def on_member_join( member ):
     channel = client.get_channel(707873874489901069)
     role = discord.utils.get(member.guild.roles, id=710101627838660660)
     await member.add_roles( role )
-    await channel.send( embed = discord.Embed(description = f'Добро пожаловать на наш Discord сервер {member.name} чтобы получить другую роль зайдите в текстовой канал "получение-роли"', color = 0x0c0c0c) )
+    await channel.send( embed = discord.Embed(description = f'Добро пожаловать на наш Discord сервер {member.name} чтобы получить другую роль зайдите в текстовой канал "получение-роли"', color = discord.Colour.blue) )
 
 @client.command()
 async def join(ctx):
