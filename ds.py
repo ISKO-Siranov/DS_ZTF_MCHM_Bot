@@ -17,6 +17,8 @@ prefix = '>'
 
 players = {}
 
+prosto_peremennaua = 1
+
 client = commands.Bot(command_prefix=prefix)
 client.remove_command( 'help' )
 
