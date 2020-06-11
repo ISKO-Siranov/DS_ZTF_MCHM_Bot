@@ -124,7 +124,7 @@ async def leave(ctx):
 
 @client.command(pass_context=True)
 async def play(ctx, url: str):
-    server = ctx.Message.server
+    server = ctx.Message.Context.server
     voice_client = client.voice_client_in(server)
     player = await voice_client.create_ytdl_player(url)
     players[server.id] = player
