@@ -122,9 +122,9 @@ async def leave(ctx):
     except:
         await ctx.channel.send('Вы должы быть в канале с ботом, чтобы отключить его.')
 
-@client.command(pass_context=True)
+@client.command()
 async def play(ctx, url: str):
-    server = ctx.message.server.channel
+    server = ctx.message.server
     voice_client = client.voice_client_in(server)
     player = await voice_client.create_ytdl_player(url)
     players[server.id] = player
@@ -133,17 +133,17 @@ async def play(ctx, url: str):
     if not discord.opus.is_loaded():
         discord.opus.load_opus('libopus.so')
     
-@client.command(pass_context=True)
+@client.command()
 async def pause(ctx):
     id = ctx.message.server.id
     players[id].pause()
     
-@client.command(pass_context=True)
+@client.command()
 async def stop(ctx):
     id = ctx.message.server.id
     players[id].stop()
     
-@client.command(pass_context=True)
+@client.command()
 async def resume(ctx):
     id = ctx.message.server.id
     players[id].resume()
