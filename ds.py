@@ -120,47 +120,14 @@ async def leave(ctx):
     except:
         await ctx.channel.send('Вы должы быть в канале с ботом, чтобы отключить его.')
 
-@client.command()
-async def play(ctx, url: str):
-    song_there = os.path.isfile('song.mp3')
-
-    try:
-        if song_there:
-            os.remove('song.mp3')
-            print('[log] Старый файл удален')
-    except PermissionError:
-        print('[log] Не удалось удалить файл')
-
-    await ctx.send('Пожалуйста ожидайте')
-
-    voice = get(client.voice_clients, guild=ctx.guild)
-
-    ydl_opts = {
-        'format' : 'bestaudio/best',
-        'postprocessors' : [{
-            'key' : 'FFmpegExtractAudio',
-            'preferredcodec' : 'mp3',
-            'preferredquality' : '192'
-        }],
-    }
-    
-    with youtube_dl.YoutubeDL(ydl_opts) as ydl:
-        print('[log] Загружаю музыку...')
-        ydl.download([url])
-
-    for file in os.listdir('./'):
-        if file.endswith('.mp3'):
-            name = file
-            print('[] Переименовываю файл: {file}')
-            os.rename(file, 'song.mp3')
-
-    voice.play(discord.FFmpegPCMAudio('song.mp3'), after = lambda e: print(f'[log] {name}, музыка завершилась'))
-    voice.source = discord.PCMVolumeTransformer(voice.source)
-    voice.source.volume = 0.77
-
-    song_name = name.rsplit('-', 2)
-    await ctx.send(f'Сейчас играет: {song_name[0]}')
-    
+@client.command(pass_context=True)
+async def play(ctx, url):
+    server = ctx.message.server
+    voice_client = client.voice_client_in(server)
+    player = await voice_client.create_ytdl_player(url)
+    players[server.id] = player
+    player.start()
+                                           
     if not discord.opus.is_loaded():
         discord.opus.load_opus('libopus.so')
     
