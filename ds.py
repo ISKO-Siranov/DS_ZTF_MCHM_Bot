@@ -15,6 +15,8 @@ owm = pyowm.OWM('23e383b1f9723c91e85317b5e6a95c15', language="ru")
 
 prefix = '>'
 
+players = {}
+
 client = commands.Bot(command_prefix=prefix)
 client.remove_command( 'help' )
 
@@ -162,12 +164,20 @@ async def play(ctx, url: str):
     if not discord.opus.is_loaded():
         discord.opus.load_opus('libopus.so')
     
-@client.command()
-async def stop(ctx):
-    song_there = os.path.isfile('song.mp3')
-    if song_there:
-        os.remove('song.mp3')
-        print('[log] Старый файл удален')
+@client.command(pass_context=True)
+async def pause(ctx):
+    id = ctx.message.server.id
+    players[id].pause()
+    
+@client.command(pass_context=True)
+async def pause(ctx):
+    id = ctx.message.server.id
+    players[id].stop()
+    
+@client.command(pass_context=True)
+async def pause(ctx):
+    id = ctx.message.server.id
+    players[id].resume()
     
 class MyClient(discord.Client):
     async def on_ready(self):
