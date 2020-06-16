@@ -96,20 +96,20 @@ async def on_member_join( member ):
     await member.add_roles( role )
     await channel.send( embed = discord.Embed(description = f'Добро пожаловать на наш Discord сервер {member.name} чтобы получить другую роль зайдите в текстовой канал "получение-роли"', color = discord.Colour.blue) )
 
-@client.command()
+@client.command(pass_context=True)
 async def join(ctx):
-    channel = ctx.message.author.voice.voice_channel.VoiceState
+    channel = ctx.message.author.voice.voice_channel
     await client.join_voice_channel(channel)
     await ctx.send('Бот присоединился')
 
-@client.command()
+@client.command(pass_context=True)
 async def leave(ctx):
     server = ctx.message.server
     voice_client = client.voice_client_in(server)
     await voice_client.disconnect()
     await ctx.send('Бот вышел из голосового канала')
 
-@client.command(pass_context = True)
+@client.command(pass_context=True)
 async def play(ctx, url):
     server = ctx.message.server
     voice_client = client.voice_client_in(server)
