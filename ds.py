@@ -17,8 +17,6 @@ prefix = '>'
 
 players = {}
 
-prosto_peremennaua = 1
-
 client = commands.Bot(command_prefix=prefix)
 client.remove_command( 'help' )
 
@@ -123,10 +121,10 @@ async def leave(ctx):
         await ctx.channel.send('Вы должы быть в канале с ботом, чтобы отключить его.')
 
 @client.command(pass_context = True)
-async def play(ctx, url: str):
+async def play(ctx url: str):
     server = ctx.message.server
-    voice_client = ctx.client.voice_client_in(server)
-    player = await ctx.voice_client.create_ytdl_player(url)
+    voice_client = client.voice_client_in(server)
+    player = await voice_client.create_ytdl_player(url)
     players[server.id] = player
     player.start()
                                            
