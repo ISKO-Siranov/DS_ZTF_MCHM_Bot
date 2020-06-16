@@ -98,7 +98,7 @@ async def on_member_join( member ):
 
 @client.command()
 async def join(ctx):
-    channel = ctx.message.author.voice.voice_channel
+    channel = ctx.message.author.voice.voice_channel.VoiceState
     await client.join_voice_channel(channel)
     await ctx.send('Бот присоединился')
 
