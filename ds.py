@@ -98,30 +98,19 @@ async def on_member_join( member ):
 
 @client.command()
 async def join(ctx):
-    channel = ctx.message.author.voice.channel
-    voice = get(client.voice_clients, guild=ctx.guild)
-    if voice and voice.is_connected():
-        await voice.move_to(channel)
-    else:
-        await channel.connect()
+    channel = ctx.message.author.voice.voice_channel
+    await client.join_voice_channel(channel)
+    await ctx.send('Бот присоединился')
 
 @client.command()
 async def leave(ctx):
-    try:
-        channel = ctx.message.author.voice.channel
-        voice = get(client.voice_clients, guild=ctx.guild)
-        all_user = list(map(lambda x: x.name, channel.members))
-        name_bot = ctx.guild.get_member(707868440370872340).name
-        if name_bot in all_user:
-            await voice.disconnect()
-        else:
-            await ctx.channel.send('Вы должы быть в канале с ботом, чтобы отключить его.')
-
-    except:
-        await ctx.channel.send('Вы должы быть в канале с ботом, чтобы отключить его.')
+    server = ctx.message.server
+    voice_client = client.voice_client_in(server)
+    await voice_client.disconnect()
+    await ctx.send('Бот вышел из голосового канала')
 
 @client.command(pass_context = True)
-async def play(ctx, url: str):
+async def play(ctx, url):
     server = ctx.message.server
     voice_client = client.voice_client_in(server)
     player = await voice_client.create_ytdl_player(url)
