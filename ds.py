@@ -10,21 +10,15 @@ from discord.ext import commands
 from discord.utils import get
 from time import sleep
 from discord import utils
-
 owm = pyowm.OWM('23e383b1f9723c91e85317b5e6a95c15', language="ru")
-
 prefix = '>'
-
 players = {}
-
 client = commands.Bot(command_prefix=prefix)
 client.remove_command( 'help' )
-
 observation = owm.weather_at_place('Almaty,KZ')
 w = observation.get_weather()
 windy = w.get_wind()['speed']
 tempash = w.get_temperature('celsius')['temp']
-
 hello_words = ['hello','Hello','hi','Hi','привет','Привет',]
 question = ['что ты умеешь?','че ты умеешь?','что здесь делать?','че здесь делать?']
 gradusov = [5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,25,26,27,28,29,30,35,36,37,38,39,40,45,46,47,48,49,50]
