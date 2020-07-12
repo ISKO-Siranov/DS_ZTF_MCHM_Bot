@@ -33,7 +33,7 @@ async def weather(ctx):
         await ctx.channel.send('В городе ' + 'Алматы' + ' сейчас ' + w.get_detailed_status() + ',' + ' температура сейчас составляет - ' + str(tempash) + ' градуса' + ',' + "\n" + 'текущая скорость ветра = ' + str(windy) + ' км/ч' + '.')   
     if tempash in gradus:
         await ctx.channel.send('В городе ' + 'Алматы' + ' сейчас ' + w.get_detailed_status() + ',' + ' температура сейчас составляет - ' + str(tempash) + ' градус' + ',' + "\n" + 'текущая скорость ветра = ' + str(windy) + ' км/ч'  + '.')
-    
+     
 @client.event
 async def on_ready():
     print( 'BOT connected' )
