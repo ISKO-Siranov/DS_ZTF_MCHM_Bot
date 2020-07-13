@@ -112,7 +112,7 @@ async def m(ctx, url : str):
     ydl_opts = {
         'format' : 'bestaudio/best',
         'postprocessors' : [{
-            'key' : 'FFmpegExctractAudio',
+            'key' : 'FFmpegExtractAudio',
             'preferredcodec' : 'mp3',
             'preferredquality' : '192'
         }],
