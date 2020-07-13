@@ -24,7 +24,7 @@ gradusa = [2,3,4,22,23,24,32,33,34,42,43,44]
 gradus = [1,21,31,41]
 
 @client.command(pass_context=True)
-async def weather(ctx):
+async def w(ctx):
     if tempash in gradusov:
         await ctx.channel.send('В городе ' + 'Алматы' + ' сейчас ' + w.get_detailed_status() + ',' + ' температура сейчас составляет - ' + str(tempash) + ' градусов' + ',' + "\n" + 'текущая скорость ветра = ' + str(windy) + ' км/ч' + '.')  
     if tempash in gradusa:
@@ -38,12 +38,12 @@ async def on_ready():
     await client.change_presence( status = discord.Status.online, activity = discord.Game( 'работника' ) )
 
 @client.command( pass_context = True )
-async def clear( ctx, amount = 100 ):
+async def c( ctx, amount = 100 ):
     await ctx.channel.purge( limit = amount )
 
 @client.command( pass_context = True )
 @commands.has_permissions( administrator = True )
-async def kick( ctx, amount : int, member: discord.Member, *, reason = None ):
+async def k( ctx, amount : int, member: discord.Member, *, reason = None ):
     await ctx.channel.purge( limit = 1 )
     await member.kick( reason = reason, )
     await ctx.send(f'kick user { member.mention }')
@@ -52,13 +52,17 @@ async def kick( ctx, amount : int, member: discord.Member, *, reason = None ):
 @client.command( pass_context = True )
 async def help( ctx ):
     emb = discord.Embed( title = 'Инструкция по командам' )
-    emb.add_field( name = '{}clear'.format ( prefix ), value = 'Очистка чата' )
-    emb.add_field( name = '{}kick'.format ( prefix ), value = 'Удаление участника (Только админ) ' )
-    emb.add_field( name = '{}time'.format ( prefix ), value = 'Показ времени' )
-    emb.add_field(name = '{}play'.format(prefix), value = 'слушать музыку')
-    emb.add_field(name = '{}weather'.format(prefix), value = 'показ погоды в алматы')
+    emb.add_field( name = '{}c'.format ( prefix ), value = 'Очистка чата' )
+    emb.add_field( name = '{}k'.format ( prefix ), value = 'Удаление участника (Только админ) ' )
+    emb.add_field(name = '{}m'.format(prefix), value = 'слушать музыку')
+    emb.add_field(name = '{}w'.format(prefix), value = 'показ погоды в алматы')
+    emb.add_field(name = '{}s'.format(prefix), value = 'стоп музыки')
+    emb.add_field(name = '{}p'.format(prefix), value = 'пауза музыки')
+    emb.add_field(name = '{}r'.format(prefix), value = 'продолжение музыки')
+    emb.add_field(name = '{}j'.format(prefix), value = 'присоединение бота к голосовому каналу только если вы там есть')
+    emb.add_field(name = '{}l'.format(prefix), value = 'отсоединение от голосового канала')
     await ctx.send( embed = emb )
-    await ctx.send( 'Все команды писать с префиксом  - ":"  ')
+    await ctx.send( 'Все команды писать с префиксом  -  ":" ' )
 
 @client.event
 async def on_member_join( member ):
@@ -68,20 +72,30 @@ async def on_member_join( member ):
     await channel.send( embed = discord.Embed(description = f'Добро пожаловать на наш Discord сервер {member.name} чтобы получить другую роль зайдите в текстовой канал "получение-роли"', color = discord.Colour.blue) )
 
 @client.command(pass_context=True)
-async def join(ctx):
-    channel = ctx.message.author.voice.voice_channel
-    await client.join_voice_channel(channel)
-    await ctx.send('Бот присоединился')
+async def j(ctx):
+    global voice
+    channel = ctx.message.author.voice.channel
+    voice = get(client.voice_clients, guild = ctx.guild)
+
+    if voice and voice.is_connected():
+        await voice.move_to (channel)
+    else:
+        voice = await channel.connect()
+        await ctx.send(f'Бот подключился к каналу : {channel}')
 
 @client.command(pass_context=True)
-async def leave(ctx):
-    server = ctx.message.server
-    voice_client = client.voice_client_in(server)
-    await voice_client.disconnect()
-    await ctx.send('Бот вышел из голосового канала')
+async def l(ctx):
+    channel = ctx.message.author.voice.channel
+    voice = get(client.voice_clients, guild = ctx.guild)
+
+    if voice and voice.is_connected():
+        await voice.disconnect()
+    else:
+        voice = await connect.channel()
+        await ctx.send(f'Бот отсоединился от канала : {channel}')
 
 @client.command(pass_context=True)
-async def play(ctx, url):
+async def m(ctx, url):
     server = ctx.message.server
     voice_client = client.voice_client_in(server)
     player = await voice_client.create_ytdl_player(url)
@@ -92,17 +106,17 @@ async def play(ctx, url):
         discord.opus.load_opus('libopus.so')
     
 @client.command(pass_context = True)
-async def pause(ctx):
+async def p(ctx):
     id = ctx.message.server.id
     players[id].pause()
     
 @client.command(pass_context = True)
-async def stop(ctx):
+async def s(ctx):
     id = ctx.message.server.id
     players[id].stop()
     
 @client.command(pass_context = True)
-async def resume(ctx):
+async def r(ctx):
     id = ctx.message.server.id
     players[id].resume()
     
