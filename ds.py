@@ -95,13 +95,47 @@ async def l(ctx):
         await ctx.send(f'Бот отсоединился от канала : {channel}')
 
 @client.command(pass_context=True)
-async def m(ctx, url):
-    server = ctx.message.server
-    voice_client = client.voice_client_in(server)
-    player = await voice_client.create_ytdl_player(url)
-    players[server.id] = player
-    player.start()
-                                           
+async def m(ctx, url : str):
+    song_there = os.path.isfile('song.mp3')
+
+    try:
+        if song_there:
+            os.remove('song.mp3')
+            print('[log] Старый файл удален')
+    except PermissionError:
+        print('[log] Не удалось удалить файл')
+
+    await ctx.send('Пожалуйста подождите')
+
+    voice = get(client.voice_clients, guild = ctx.guild)
+
+    ydl_opts = {
+        'format' : 'bestaudio/best',
+        'postprocessors' : [{
+            'key' : 'FFmpegExctractAudio',
+            'preferredcodec' : 'mp3',
+            'preferredquality' : '192'
+        }],
+
+    }
+
+    with youtube_dl.YoutubeDL(ydl_opts) as ydl:
+        print('[log] Загружаю музыку...')
+        ydl.download([url])
+    
+    for file in os.listdir('./'):
+        if file.endswith('.mp3'):
+            name = file
+            print(f'[log] Переименовываю файл: {file}')
+            os.rename(file, 'song.mp3')
+
+    voice.play(discord.FFmpegPCMAudio('song.mp3'), after = lambda e: print(f'[log]' {name}, 'Музыка завершилась'))
+    voice.source = discord.PCMVolumeTransformer(voice.source)
+    voice.source.volume = 0.77
+
+    song_name = name.rsplit('-', 2)
+    await ctx.send(f'Сейчас играет : {song_name[0]}')
+
     if not discord.opus.is_loaded():
         discord.opus.load_opus('libopus.so')
     
