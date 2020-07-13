@@ -11,7 +11,7 @@ from discord.utils import get
 from time import sleep
 from discord import utils
 owm = pyowm.OWM('23e383b1f9723c91e85317b5e6a95c15', language="ru")
-prefix = '>'
+prefix = ":"
 players = {}
 client = commands.Bot(command_prefix=prefix)
 client.remove_command( 'help' )
@@ -19,8 +19,6 @@ observation = owm.weather_at_place('Almaty,KZ')
 w = observation.get_weather()
 windy = w.get_wind()['speed']
 tempash = w.get_temperature('celsius')['temp']
-hello_words = ['hello','Hello','hi','Hi','привет','Привет',]
-question = ['что ты умеешь?','че ты умеешь?','что здесь делать?','че здесь делать?']
 gradusov = [5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,25,26,27,28,29,30,35,36,37,38,39,40,45,46,47,48,49,50]
 gradusa = [2,3,4,22,23,24,32,33,34,42,43,44]
 gradus = [1,21,31,41]
@@ -51,37 +49,16 @@ async def kick( ctx, amount : int, member: discord.Member, *, reason = None ):
     await ctx.send(f'kick user { member.mention }')
     await ctx.channel.purge( limit=amount )
 
-@client.event
-async def on_message( message ):
-    await client.process_commands( message )
-    author = message.author
-    msg = message.content.lower()
-    if msg in hello_words:
-        await message.channel.send(f' Здравствуйте {author.mention} чем могу быть полезен? ')
-    if msg in question:
-        await message.channel.send(f' {author.mention} для полной инфы пропишите команду - >help ')
-
 @client.command( pass_context = True )
 async def help( ctx ):
     emb = discord.Embed( title = 'Инструкция по командам' )
     emb.add_field( name = '{}clear'.format ( prefix ), value = 'Очистка чата' )
     emb.add_field( name = '{}kick'.format ( prefix ), value = 'Удаление участника (Только админ) ' )
     emb.add_field( name = '{}time'.format ( prefix ), value = 'Показ времени' )
-    emb.add_field(name='{}play'.format(prefix), value='слушать музыку')
-    emb.add_field(name='{}weather'.format(prefix), value='показ погоды в алматы')
+    emb.add_field(name = '{}play'.format(prefix), value = 'слушать музыку')
+    emb.add_field(name = '{}weather'.format(prefix), value = 'показ погоды в алматы')
     await ctx.send( embed = emb )
-    await ctx.send( 'Все команды писать с префиксом  - ">"  ')
-
-@client.command( pass_context = True )
-async def time( ctx ):
-    emb = discord.Embed( title = 'Your title', description = 'Вы сможете узнать текущие время', colour = discord.Colour.purple(), url = 'https://www.timeserver.ru/' )
-    emb.set_author( name = client.user.name, icon_url = client.user.avatar_url )
-    emb.set_footer( text = ctx.author.name, icon_url = ctx.author.avatar_url )
-    emb.set_image( url = 'https://images.unsplash.com/photo-1501139083538-0139583c060f?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&w=1000&q=80' )
-    emb.set_thumbnail( url = 'https://png.pngtree.com/element_our/png_detail/20181010/time-icon-vector-png_125592.jpg' )
-    now_date = datetime.datetime.now()
-    emb.add_field( name = 'Показ времени', value = 'Время : {}'.format( now_date ) )
-    await ctx.send( embed = emb )
+    await ctx.send( 'Все команды писать с префиксом  - ":"  ')
 
 @client.event
 async def on_member_join( member ):
