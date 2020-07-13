@@ -10,8 +10,7 @@ from discord.ext import commands
 from discord.utils import get
 from time import sleep
 from discord import utils
-WKEY = 'WK'
-owm = pyowm.OWM(WKEY, language="ru")
+owm = pyowm.OWM('23e383b1f9723c91e85317b5e6a95c15', language="ru")
 prefix = ":"
 players = {}
 client = commands.Bot(command_prefix=prefix)
