@@ -11,6 +11,7 @@ from discord.ext import commands
 from discord.utils import get
 from time import sleep
 from discord import utils
+
 owm = pyowm.OWM('23e383b1f9723c91e85317b5e6a95c15', language="ru")
 prefix = ":"
 players = {}
@@ -24,6 +25,7 @@ gradusov = [5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,25,26,27,28,29,30,35,36,3
 gradusa = [2,3,4,22,23,24,32,33,34,42,43,44]
 gradus = [1,21,31,41]
 
+
 @client.command(pass_context=True)
 async def w(ctx):
     if tempash in gradusov:
@@ -32,15 +34,18 @@ async def w(ctx):
         await ctx.channel.send('В городе ' + 'Алматы' + ' сейчас ' + w.get_detailed_status() + ',' + ' температура сейчас составляет - ' + str(tempash) + ' градуса' + ',' + "\n" + 'текущая скорость ветра = ' + str(windy) + ' км/ч' + '.')   
     if tempash in gradus:
         await ctx.channel.send('В городе ' + 'Алматы' + ' сейчас ' + w.get_detailed_status() + ',' + ' температура сейчас составляет - ' + str(tempash) + ' градус' + ',' + "\n" + 'текущая скорость ветра = ' + str(windy) + ' км/ч'  + '.')
-     
+
+
 @client.event
 async def on_ready():
     print( 'BOT connected' )
     await client.change_presence( status = discord.Status.online, activity = discord.Game( 'работника' ) )
 
+
 @client.command( pass_context = True )
 async def c( ctx, amount = 100 ):
     await ctx.channel.purge( limit = amount )
+
 
 @client.command( pass_context = True )
 @commands.has_permissions( administrator = True )
@@ -49,6 +54,7 @@ async def k( ctx, amount : int, member: discord.Member, *, reason = None ):
     await member.kick( reason = reason, )
     await ctx.send(f'kick user { member.mention }')
     await ctx.channel.purge( limit=amount )
+
 
 @client.command( pass_context = True )
 async def help( ctx ):
@@ -65,12 +71,14 @@ async def help( ctx ):
     await ctx.send( embed = emb )
     await ctx.send( 'Все команды писать с префиксом  -  ":" ' )
 
+
 @client.event
 async def on_member_join( member ):
     channel = client.get_channel(707873874489901069)
     role = discord.utils.get(member.guild.roles, id=710101627838660660)
     await member.add_roles( role )
     await channel.send( embed = discord.Embed(description = f'Добро пожаловать на наш Discord сервер {member.name} чтобы получить другую роль зайдите в текстовой канал "получение-роли"', color = discord.Colour.blue) )
+
 
 @client.command(pass_context=True)
 async def j(ctx):
@@ -84,6 +92,7 @@ async def j(ctx):
         voice = await channel.connect()
         await ctx.send(f'Бот подключился к каналу : {channel}')
 
+
 @client.command(pass_context=True)
 async def l(ctx):
     channel = ctx.message.author.voice.channel
@@ -94,6 +103,7 @@ async def l(ctx):
     else:
         voice = await connect.channel()
         await ctx.send(f'Бот отсоединился от канала : {channel}')
+
 
 @client.command(pass_context=True)
 async def m(ctx, url : str):
@@ -139,27 +149,25 @@ async def m(ctx, url : str):
 
     if not discord.opus.is_loaded():
         discord.opus.load_opus('libopus.so')
-    
+
+   
 @client.command(pass_context = True)
 async def p(ctx):
     id = ctx.message.server.id
     players[id].pause()
-    
+
+
 @client.command(pass_context = True)
 async def s(ctx):
     id = ctx.message.server.id
     players[id].stop()
-    
+
+
 @client.command(pass_context = True)
 async def r(ctx):
     id = ctx.message.server.id
     players[id].resume()
 
-@client.command(pass_context = True)
-async def wiki(ctx):
-    wikipedia.set_lang("ru")
-    result = await ctx.send("что хотите узнать?")
-    await ctx.send(wikipedia.summary(result))
 
 token = os.environ.get('BOT_TOKEN')
 
