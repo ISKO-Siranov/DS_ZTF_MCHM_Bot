@@ -6,6 +6,7 @@ import radio
 import os
 import requests
 import config
+import wikipedia
 from discord.ext import commands
 from discord.utils import get
 from time import sleep
@@ -153,6 +154,12 @@ async def s(ctx):
 async def r(ctx):
     id = ctx.message.server.id
     players[id].resume()
+
+@client.command(pass_context = True)
+async def wiki(ctx):
+    wikipedia.set_lang("ru")
+    result = await ctx.send("что хотите узнать?")
+    await ctx.send(wikipedia.summary(result))
 
 token = os.environ.get('BOT_TOKEN')
 
