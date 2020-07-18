@@ -6,7 +6,6 @@ import radio
 import os
 import requests
 import config
-import wikipedia
 from discord.ext import commands
 from discord.utils import get
 from time import sleep
@@ -27,7 +26,7 @@ gradus = [1,21,31,41]
 
 
 @client.command(pass_context=True)
-async def w(ctx):
+async def weather(ctx):
     if tempash in gradusov:
         await ctx.channel.send('В городе ' + 'Алматы' + ' сейчас ' + w.get_detailed_status() + ',' + ' температура сейчас составляет - ' + str(tempash) + ' градусов' + ',' + "\n" + 'текущая скорость ветра = ' + str(windy) + ' км/ч' + '.')  
     if tempash in gradusa:
@@ -43,13 +42,13 @@ async def on_ready():
 
 
 @client.command( pass_context = True )
-async def c( ctx, amount = 100 ):
+async def clear( ctx, amount = 100 ):
     await ctx.channel.purge( limit = amount )
 
 
 @client.command( pass_context = True )
 @commands.has_permissions( administrator = True )
-async def k( ctx, amount : int, member: discord.Member, *, reason = None ):
+async def kick( ctx, amount : int, member: discord.Member, *, reason = None ):
     await ctx.channel.purge( limit = 1 )
     await member.kick( reason = reason, )
     await ctx.send(f'kick user { member.mention }')
@@ -81,7 +80,7 @@ async def on_member_join( member ):
 
 
 @client.command(pass_context=True)
-async def j(ctx):
+async def join(ctx):
     global voice
     channel = ctx.message.author.voice.channel
     voice = get(client.voice_clients, guild = ctx.guild)
@@ -94,7 +93,7 @@ async def j(ctx):
 
 
 @client.command(pass_context=True)
-async def l(ctx):
+async def leave(ctx):
     channel = ctx.message.author.voice.channel
     voice = get(client.voice_clients, guild = ctx.guild)
 
