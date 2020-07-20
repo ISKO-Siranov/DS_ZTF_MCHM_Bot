@@ -11,12 +11,12 @@ from discord.utils import get
 from time import sleep
 from discord import utils
 
-owm = pyowm.OWM('23e383b1f9723c91e85317b5e6a95c15', language="ru")
+
 prefix = ":"
 players = {}
 client = commands.Bot(command_prefix=prefix)
 client.remove_command( 'help' )
-observation = owm.weather_at_place('Almaty,KZ')
+observation = pyowm.OWM('23e383b1f9723c91e85317b5e6a95c15', language="ru").weather_at_place('Almaty,KZ')
 w = observation.get_weather()
 windy = w.get_wind()['speed']
 tempash = w.get_temperature('celsius')['temp']
