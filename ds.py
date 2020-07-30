@@ -167,7 +167,6 @@ async def resume( ctx ):
     id = ctx.message.server.id
     players[id].resume()
 
+T = os.environ.get( 'BOT_TOKEN' )
 
-token = os.environ.get( 'BOT_TOKEN' )
-
-client.run(str(token))
+client.run(str(T))
