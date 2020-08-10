@@ -12,6 +12,8 @@ from time import sleep
 from discord import utils
 from pyowm import *
 
+
+kluch = BOT_TOKEN
 prefix = "*"
 players = {}
 client = commands.Bot( command_prefix = prefix )
@@ -167,6 +169,6 @@ async def resume( ctx ):
     id = ctx.message.server.id
     players[id].resume()
 
-T = os.environ.get( 'BOT_TOKEN' )
+T = os.environ.get(kluch)
 
 client.run(str(T))
