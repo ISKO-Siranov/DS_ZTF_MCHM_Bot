@@ -5,7 +5,6 @@ import pyowm
 import radio
 import os
 import requests
-import config
 from discord.ext import commands
 from discord.utils import get
 from time import sleep
