@@ -9,7 +9,6 @@ from discord.ext import commands
 from discord.utils import get
 from time import sleep
 from discord import utils
-from pyowm import *
 
 
 prefix = "*"
@@ -167,6 +166,6 @@ async def resume( ctx ):
     id = ctx.message.server.id
     players[id].resume()
 
-T = os.environ.get('BOT_TOKEN')
+T = os.environ.get('NzUxMzQ2MTc4NjE2MDY2MDU5.X1HvqA.ZjuDk3dOafgCHvxEFciicguUli0')
 
 client.run(str(T))
