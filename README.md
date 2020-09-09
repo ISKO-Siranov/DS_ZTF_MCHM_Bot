@@ -1,1 +1,1 @@
-# DS_ZTF_MCHM_Bot
+# Discord-bot
